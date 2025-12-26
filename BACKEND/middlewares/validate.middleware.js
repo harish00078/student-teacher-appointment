@@ -34,6 +34,7 @@ const appointmentValidation = [
   body('teacher').notEmpty().withMessage('Teacher ID is required'),
   body('date').notEmpty().withMessage('Date is required'),
   body('time').notEmpty().withMessage('Time is required'),
+  body('message').optional().isString(),
   validate
 ];
 

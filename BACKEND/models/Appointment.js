@@ -6,5 +6,6 @@ module.exports = mongoose.model("Appointment", new mongoose.Schema({
   date: String,
   time: String,
   message: String,
-  status: { type: String, default: "pending" }
+  status: { type: String, enum: ["pending", "approved", "rejected", "cancelled"], default: "pending" },
+  message: String
 }));

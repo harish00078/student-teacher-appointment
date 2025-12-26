@@ -4,5 +4,6 @@ module.exports = mongoose.model("User", new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
   password: String,
-  role: { type: String, enum: ["admin", "teacher", "student"] }
+  role: { type: String, enum: ["admin", "teacher", "student"] },
+  isApproved: { type: Boolean, default: false }
 }));
