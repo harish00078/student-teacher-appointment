@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { login } from "../services/auth.service";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import { Container, Card, Form, Button, Alert } from "react-bootstrap";
 
@@ -7,17 +7,18 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError(""); // Clear previous errors
     try {
       const data = await login({ email, password });
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.role);
       navigate("/" + data.role);
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      console.error("Login error:", err);
+      setError(err.response?.data?.message || "Login failed. Please check your credentials.");
     }
   };
 

@@ -1,13 +1,13 @@
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navigation() {
   const navigate = useNavigate();
-  const role = localStorage.getItem("role");
+  const { role, logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
+    logout();
     navigate("/");
   };
 
