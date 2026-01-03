@@ -39,7 +39,7 @@ const appointmentValidation = [
 ];
 
 const updateStatusValidation = [
-  body('status').isIn(['pending', 'approved', 'rejected']).withMessage('Invalid status'),
+  body('status').isIn(['pending', 'approved', 'rejected', 'cancelled']).withMessage('Invalid status'),
   validate
 ];
 

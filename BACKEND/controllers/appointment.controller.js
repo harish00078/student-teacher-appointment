@@ -75,3 +75,17 @@ exports.getMyAppointments = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteAppointment = async (req, res, next) => {
+  try {
+    const appointment = await Appointment.findByIdAndDelete(req.params.id);
+    if (!appointment) {
+      const error = new Error("Appointment not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    res.json({ message: "Appointment deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -33,6 +33,16 @@ export default function TeacherDashboard() {
     }
   };
 
+  const deleteAppointment = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this appointment?")) return;
+    try {
+      await api.delete(`/appointments/${id}`);
+      fetchAppointments();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <Navigation />
@@ -57,7 +67,7 @@ export default function TeacherDashboard() {
                 <td>{app.time}</td>
                 <td>{app.message}</td>
                 <td>
-                  <Badge bg={app.status === 'approved' ? 'success' : app.status === 'rejected' ? 'danger' : 'warning'}>
+                  <Badge bg={app.status === 'approved' ? 'success' : app.status === 'rejected' ? 'danger' : app.status === 'cancelled' ? 'secondary' : 'warning'}>
                     {app.status}
                   </Badge>
                 </td>
@@ -70,6 +80,9 @@ export default function TeacherDashboard() {
                   )}
                   {app.status === 'approved' && (
                      <Button size="sm" variant="warning" onClick={() => updateStatus(app._id, 'cancelled')}>Cancel</Button>
+                  )}
+                  {app.status === 'cancelled' && (
+                     <Button size="sm" variant="danger" onClick={() => deleteAppointment(app._id)}>Delete</Button>
                   )}
                 </td>
               </tr>
