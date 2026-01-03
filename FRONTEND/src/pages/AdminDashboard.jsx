@@ -6,7 +6,7 @@ import api from "../services/api";
 export default function AdminDashboard() {
   const [pendingStudents, setPendingStudents] = useState([]);
   const [message, setMessage] = useState("");
-  const [teacherForm, setTeacherForm] = useState({ name: "", department: "", subject: "", user_id: "" }); // Need user_id for linking
+  const [teacherForm, setTeacherForm] = useState({ name: "", email: "", password: "", department: "", subject: "" });
 
   useEffect(() => {
     fetchPendingStudents();
@@ -31,38 +31,15 @@ export default function AdminDashboard() {
     }
   };
 
-  // Note: Adding a teacher currently requires a linked User ID. 
-  // For this simple prototype, maybe we just list users and allow promoting them to teacher?
-  // Or we manually input a User ID (which is bad UX).
-  // Ideally: Select a user from a list of "all users" to make them a teacher.
-  // OR: Create a new User AND Teacher at the same time.
-  
-  // Let's implement "Create Teacher Account" which creates both User and Teacher profile.
   const handleAddTeacher = async (e) => {
     e.preventDefault();
-    // Complex flow: Register User -> Get ID -> Create Teacher
-    // Doing this from frontend is okay for prototype.
     try {
-        // 1. Create User
-        const userRes = await api.post("/auth/register", {
-            name: teacherForm.name,
-            email: teacherForm.email,
-            password: "password123", // Default password
-            role: "teacher"
-        });
-        
-        // 2. Create Teacher Profile
-        await api.post("/teachers", {
-            user_id: userRes.data._id,
-            name: teacherForm.name,
-            department: teacherForm.department,
-            subject: teacherForm.subject
-        });
-        
-        setMessage(`Teacher ${teacherForm.name} added! Default password: password123`);
-        setTeacherForm({ name: "", email: "", department: "", subject: "" });
+        await api.post("/admin/create-teacher", teacherForm);
+        setMessage(`Teacher ${teacherForm.name} added successfully!`);
+        setTeacherForm({ name: "", email: "", password: "", department: "", subject: "" });
     } catch (err) {
-        setMessage("Failed to add teacher.");
+        console.error(err);
+        setMessage(err.response?.data?.message || "Failed to add teacher.");
     }
   };
 
@@ -101,16 +78,46 @@ export default function AdminDashboard() {
             <h4>Add New Teacher</h4>
             <Form onSubmit={handleAddTeacher}>
                 <Form.Group className="mb-2">
-                    <Form.Control placeholder="Name" required onChange={e => setTeacherForm({...teacherForm, name: e.target.value})} />
+                    <Form.Control 
+                        placeholder="Name" 
+                        required 
+                        value={teacherForm.name}
+                        onChange={e => setTeacherForm({...teacherForm, name: e.target.value})} 
+                    />
                 </Form.Group>
                 <Form.Group className="mb-2">
-                    <Form.Control type="email" placeholder="Email" required onChange={e => setTeacherForm({...teacherForm, email: e.target.value})} />
+                    <Form.Control 
+                        type="email" 
+                        placeholder="Email" 
+                        required 
+                        value={teacherForm.email}
+                        onChange={e => setTeacherForm({...teacherForm, email: e.target.value})} 
+                    />
                 </Form.Group>
                 <Form.Group className="mb-2">
-                    <Form.Control placeholder="Department" required onChange={e => setTeacherForm({...teacherForm, department: e.target.value})} />
+                    <Form.Control 
+                        type="password" 
+                        placeholder="Password" 
+                        required 
+                        value={teacherForm.password}
+                        onChange={e => setTeacherForm({...teacherForm, password: e.target.value})} 
+                    />
                 </Form.Group>
                 <Form.Group className="mb-2">
-                    <Form.Control placeholder="Subject" required onChange={e => setTeacherForm({...teacherForm, subject: e.target.value})} />
+                    <Form.Control 
+                        placeholder="Department" 
+                        required 
+                        value={teacherForm.department}
+                        onChange={e => setTeacherForm({...teacherForm, department: e.target.value})} 
+                    />
+                </Form.Group>
+                <Form.Group className="mb-2">
+                    <Form.Control 
+                        placeholder="Subject" 
+                        required 
+                        value={teacherForm.subject}
+                        onChange={e => setTeacherForm({...teacherForm, subject: e.target.value})} 
+                    />
                 </Form.Group>
                 <Button type="submit">Add Teacher</Button>
             </Form>
