@@ -78,12 +78,38 @@ exports.getMyAppointments = async (req, res, next) => {
 
 exports.deleteAppointment = async (req, res, next) => {
   try {
-    const appointment = await Appointment.findByIdAndDelete(req.params.id);
+    const appointment = await Appointment.findById(req.params.id);
     if (!appointment) {
       const error = new Error("Appointment not found");
       error.statusCode = 404;
       throw error;
     }
+
+    // Authorization check
+    if (req.user.role === 'student' && appointment.student.toString() !== req.user.id) {
+      console.log(`Delete failed: Student ${req.user.id} tried to delete appointment ${appointment._id} owned by ${appointment.student}`);
+      const error = new Error("Not authorized to delete this appointment");
+      error.statusCode = 403;
+      throw error;
+    }
+
+    if (req.user.role === 'teacher') {
+      const teacherProfile = await Teacher.findOne({ user_id: req.user.id });
+      if (!teacherProfile) {
+          console.log(`Delete failed: Teacher profile not found for user ${req.user.id}`);
+          const error = new Error("Teacher profile not found");
+          error.statusCode = 403;
+          throw error;
+      }
+      if (appointment.teacher.toString() !== teacherProfile._id.toString()) {
+        console.log(`Delete failed: Teacher ${teacherProfile._id} tried to delete appointment ${appointment._id} owned by ${appointment.teacher}`);
+        const error = new Error("Not authorized to delete this appointment");
+        error.statusCode = 403;
+        throw error;
+      }
+    }
+
+    await Appointment.findByIdAndDelete(req.params.id);
     res.json({ message: "Appointment deleted successfully" });
   } catch (error) {
     next(error);

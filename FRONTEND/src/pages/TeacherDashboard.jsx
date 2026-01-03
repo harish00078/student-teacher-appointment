@@ -1,35 +1,37 @@
 import { useState, useEffect } from "react";
 import Navigation from "../components/Navigation";
-import { Container, Table, Button, Badge } from "react-bootstrap";
+import { Container, Table, Button, Badge, Alert } from "react-bootstrap";
 import api from "../services/api";
 
 export default function TeacherDashboard() {
   const [appointments, setAppointments] = useState([]);
+  const [message, setMessage] = useState({ text: "", type: "" });
 
   useEffect(() => {
-    // We need an endpoint to get appointments for the logged-in teacher.
-    // Currently we don't have a specific "get my appointments" for teacher in routes?
-    // Let's assume we will add it or have it. 
-    // Wait, appointment.routes.js has no GET. I need to add it.
     fetchAppointments();
   }, []);
 
   const fetchAppointments = async () => {
     try {
-      // Create this endpoint first!
       const { data } = await api.get("/appointments/my-appointments"); 
       setAppointments(data);
     } catch (err) {
       console.error(err);
+      setMessage({ text: "Failed to load appointments", type: "danger" });
     }
   };
 
   const updateStatus = async (id, status) => {
     try {
       await api.put(`/appointments/${id}`, { status });
+      setMessage({ text: `Appointment ${status} successfully`, type: "success" });
       fetchAppointments();
     } catch (err) {
       console.error(err);
+      const errorMsg = err.response?.data?.errors 
+        ? err.response.data.errors.map(e => e.msg).join(", ") 
+        : err.response?.data?.message || "Failed to update status";
+      setMessage({ text: errorMsg, type: "danger" });
     }
   };
 
@@ -37,9 +39,11 @@ export default function TeacherDashboard() {
     if (!window.confirm("Are you sure you want to delete this appointment?")) return;
     try {
       await api.delete(`/appointments/${id}`);
+      setMessage({ text: "Appointment deleted successfully", type: "success" });
       fetchAppointments();
     } catch (err) {
       console.error(err);
+      setMessage({ text: err.response?.data?.message || "Failed to delete appointment", type: "danger" });
     }
   };
 
@@ -48,6 +52,7 @@ export default function TeacherDashboard() {
       <Navigation />
       <Container>
         <h2>Teacher Dashboard</h2>
+        {message.text && <Alert variant={message.type} onClose={() => setMessage({ text: "", type: "" })} dismissible>{message.text}</Alert>}
         <Table striped bordered hover className="mt-4">
           <thead>
             <tr>
@@ -81,7 +86,7 @@ export default function TeacherDashboard() {
                   {app.status === 'approved' && (
                      <Button size="sm" variant="warning" onClick={() => updateStatus(app._id, 'cancelled')}>Cancel</Button>
                   )}
-                  {app.status === 'cancelled' && (
+                  {(app.status === 'cancelled' || app.status === 'rejected') && (
                      <Button size="sm" variant="danger" onClick={() => deleteAppointment(app._id)}>Delete</Button>
                   )}
                 </td>

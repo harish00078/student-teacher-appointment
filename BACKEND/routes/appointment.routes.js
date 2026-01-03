@@ -7,6 +7,6 @@ const { appointmentValidation, updateStatusValidation } = require("../middleware
 router.get("/my-appointments", auth, getMyAppointments);
 router.post("/", auth, role(["student"]), appointmentValidation, book);
 router.put("/:id", auth, role(["teacher"]), updateStatusValidation, updateStatus);
-router.delete("/:id", auth, role(["teacher"]), deleteAppointment);
+router.delete("/:id", auth, role(["student", "teacher"]), deleteAppointment);
 
 module.exports = router;
