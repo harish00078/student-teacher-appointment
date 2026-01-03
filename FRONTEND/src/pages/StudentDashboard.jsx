@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import Navigation from "../components/Navigation";
-import { Container, Table, Button, Modal, Form, Alert, Row, Col, Badge } from "react-bootstrap";
+import { Container, Table, Button, Modal, Form, Alert, Row, Col, Badge, Card } from "react-bootstrap";
 import api from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 export default function StudentDashboard() {
+  const { user } = useAuth();
   const [teachers, setTeachers] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [show, setShow] = useState(false);
@@ -92,7 +94,12 @@ export default function StudentDashboard() {
     <>
       <Navigation />
       <Container>
-        <h2>Student Dashboard</h2>
+        <Card className="mt-4 mb-4 bg-light shadow-sm">
+            <Card.Body>
+                <h2>Welcome, {user?.name || "Student"}!</h2>
+                <p className="text-muted mb-0">Role: Student</p>
+            </Card.Body>
+        </Card>
         {message && <Alert variant="info">{message}</Alert>}
         
         <Row className="mt-4 mb-3 align-items-center">

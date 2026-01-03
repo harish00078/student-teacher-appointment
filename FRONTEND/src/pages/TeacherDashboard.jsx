@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import Navigation from "../components/Navigation";
-import { Container, Table, Button, Badge, Alert } from "react-bootstrap";
+import { Container, Table, Button, Badge, Alert, Card } from "react-bootstrap";
 import api from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 export default function TeacherDashboard() {
+  const { user } = useAuth();
   const [appointments, setAppointments] = useState([]);
   const [message, setMessage] = useState({ text: "", type: "" });
 
@@ -51,7 +53,15 @@ export default function TeacherDashboard() {
     <>
       <Navigation />
       <Container>
-        <h2>Teacher Dashboard</h2>
+        <Card className="mt-4 mb-4 bg-light shadow-sm">
+            <Card.Body>
+                <h2>Welcome, {user?.name || "Teacher"}!</h2>
+                <div className="text-muted">
+                    <p className="mb-1"><strong>Department:</strong> {user?.department || "N/A"}</p>
+                    <p className="mb-0"><strong>Subject:</strong> {user?.subject || "N/A"}</p>
+                </div>
+            </Card.Body>
+        </Card>
         {message.text && <Alert variant={message.type} onClose={() => setMessage({ text: "", type: "" })} dismissible>{message.text}</Alert>}
         <Table striped bordered hover className="mt-4">
           <thead>
