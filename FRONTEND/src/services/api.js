@@ -2,7 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   // baseURL: "http://localhost:5001/api"
-  baseURL: "https://student-teacher-appointment-backend-t5qq.onrender.com/"
+  baseURL: "https://student-teacher-appointment-backend-t5qq.onrender.com/api"
 });
 
 api.interceptors.request.use(
