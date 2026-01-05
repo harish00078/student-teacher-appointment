@@ -55,7 +55,7 @@ exports.getMyAppointments = async (req, res, next) => {
     let query = {};
     
     if (role === 'student') {
-        query = { student: req.user.id };
+        query = { student: req.user.id, isDeletedByStudent: { $ne: true } };
     } else if (role === 'teacher') {
         // Teacher logic is tricky because Appointment links to 'Teacher' ID, but req.user.id is 'User' ID.
         // We need to find the Teacher profile first.
@@ -63,7 +63,7 @@ exports.getMyAppointments = async (req, res, next) => {
         if (!teacherProfile) {
             return res.json([]); // No teacher profile found
         }
-        query = { teacher: teacherProfile._id };
+        query = { teacher: teacherProfile._id, isDeletedByTeacher: { $ne: true } };
     }
 
     const appointments = await Appointment.find(query)
@@ -109,7 +109,19 @@ exports.deleteAppointment = async (req, res, next) => {
       }
     }
 
-    await Appointment.findByIdAndDelete(req.params.id);
+    if (req.user.role === 'student') {
+        appointment.isDeletedByStudent = true;
+    } else if (req.user.role === 'teacher') {
+        appointment.isDeletedByTeacher = true;
+    }
+
+    await appointment.save();
+
+    // If both parties deleted it, remove from DB permanently
+    if (appointment.isDeletedByStudent && appointment.isDeletedByTeacher) {
+        await Appointment.findByIdAndDelete(req.params.id);
+    }
+
     res.json({ message: "Appointment deleted successfully" });
   } catch (error) {
     next(error);

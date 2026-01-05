@@ -1,0 +1,122 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: dark; /* Switch to dark mode */
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: #0f172a; /* Fallback */
+  color: #e2e8f0;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  color: white;
+}
+
+.glass-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+}
+
+.glass-navbar {
+  background: rgba(15, 23, 42, 0.7) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-navbar .navbar-brand,
+.glass-navbar .navbar-text,
+.glass-navbar .nav-link {
+  color: #f8fafc !important;
+}
+
+.glass-navbar .btn-outline-light {
+  border-color: rgba(255,255,255,0.3);
+  color: #f8fafc;
+}
+
+.glass-navbar .btn-outline-light:hover {
+  background-color: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.5);
+  color: white;
+}
+
+/* Overriding Bootstrap for Dark/Glass Theme */
+.table {
+  color: #f8fafc !important;
+  background-color: transparent !important;
+}
+
+.table thead th {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #f1f5f9 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.table tbody td {
+  background-color: transparent !important;
+  color: #cbd5e1 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.form-control, .form-select {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #f1f5f9 !important;
+}
+
+.form-control:focus {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25) !important;
+  border-color: #6366f1 !important;
+}
+
+.card {
+  background-color: rgba(30, 41, 59, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background-color: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white;
+}
+
+.text-muted {
+  color: #94a3b8 !important;
+}
+
+label, .form-label {
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.text-white-forced {
+  color: #ffffff !important;
+}
+

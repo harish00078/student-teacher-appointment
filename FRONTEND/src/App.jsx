@@ -6,10 +6,12 @@ import TeacherDashboard from "./pages/TeacherDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import Background3D from "./components/Background3D";
 
 export default function App() {
   return (
     <AuthProvider>
+      <Background3D />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />

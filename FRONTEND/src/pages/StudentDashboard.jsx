@@ -94,7 +94,7 @@ export default function StudentDashboard() {
     <>
       <Navigation />
       <Container>
-        <Card className="mt-4 mb-4 bg-light shadow-sm">
+        <Card className="mt-4 mb-4 glass-panel shadow-sm">
             <Card.Body>
                 <h2>Welcome, {user?.name || "Student"}!</h2>
                 <p className="text-muted mb-0">Role: Student</p>

@@ -98,120 +98,126 @@ export default function AdminDashboard() {
     <>
       <Navigation />
       <Container>
-        <h2>Admin Dashboard</h2>
+        <h2 className="text-white mt-4 mb-4">Admin Dashboard</h2>
         {message && <Alert variant="info">{message}</Alert>}
 
         <Row className="mt-4">
           <Col md={6}>
-            <h4>Pending Student Approvals</h4>
-            <Table striped bordered hover responsive>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pendingStudents.map(s => (
-                  <tr key={s._id}>
-                    <td>{s.name}</td>
-                    <td>{s.email}</td>
-                    <td>
-                      <Button size="sm" onClick={() => approveStudent(s._id)}>Approve</Button>
-                    </td>
-                  </tr>
-                ))}
-                {pendingStudents.length === 0 && <tr><td colSpan="3" className="text-center">No pending students</td></tr>}
-              </tbody>
-            </Table>
+            <div className="glass-panel h-100">
+                <h4 className="mb-3 text-white">Pending Student Approvals</h4>
+                <Table striped bordered hover responsive>
+                <thead>
+                    <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {pendingStudents.map(s => (
+                    <tr key={s._id}>
+                        <td>{s.name}</td>
+                        <td>{s.email}</td>
+                        <td>
+                        <Button size="sm" onClick={() => approveStudent(s._id)}>Approve</Button>
+                        </td>
+                    </tr>
+                    ))}
+                    {pendingStudents.length === 0 && <tr><td colSpan="3" className="text-center">No pending students</td></tr>}
+                </tbody>
+                </Table>
+            </div>
           </Col>
           <Col md={6}>
-            <h4>{editingTeacherId ? "Edit Teacher" : "Add New Teacher"}</h4>
-            <Form onSubmit={handleAddOrUpdateTeacher}>
-                <Form.Group className="mb-2">
-                    <Form.Control 
-                        placeholder="Name" 
-                        required 
-                        value={teacherForm.name}
-                        onChange={e => setTeacherForm({...teacherForm, name: e.target.value})} 
-                    />
-                </Form.Group>
-                <Form.Group className="mb-2">
-                    <Form.Control 
-                        type="email" 
-                        placeholder="Email" 
-                        required 
-                        value={teacherForm.email}
-                        onChange={e => setTeacherForm({...teacherForm, email: e.target.value})} 
-                    />
-                </Form.Group>
-                <Form.Group className="mb-2">
-                    <Form.Control 
-                        type="password" 
-                        placeholder={editingTeacherId ? "Password (leave blank to keep current)" : "Password"}
-                        required={!editingTeacherId} 
-                        value={teacherForm.password}
-                        onChange={e => setTeacherForm({...teacherForm, password: e.target.value})} 
-                    />
-                </Form.Group>
-                <Form.Group className="mb-2">
-                    <Form.Control 
-                        placeholder="Department" 
-                        required 
-                        value={teacherForm.department}
-                        onChange={e => setTeacherForm({...teacherForm, department: e.target.value})} 
-                    />
-                </Form.Group>
-                <Form.Group className="mb-2">
-                    <Form.Control 
-                        placeholder="Subject" 
-                        required 
-                        value={teacherForm.subject}
-                        onChange={e => setTeacherForm({...teacherForm, subject: e.target.value})} 
-                    />
-                </Form.Group>
-                <Button type="submit" variant={editingTeacherId ? "warning" : "primary"}>
-                    {editingTeacherId ? "Update Teacher" : "Add Teacher"}
-                </Button>
-                {editingTeacherId && (
-                    <Button variant="secondary" className="ms-2" onClick={handleCancelEdit} type="button">
-                        Cancel
+            <div className="glass-panel h-100">
+                <h4 className="mb-3 text-white">{editingTeacherId ? "Edit Teacher" : "Add New Teacher"}</h4>
+                <Form onSubmit={handleAddOrUpdateTeacher}>
+                    <Form.Group className="mb-2">
+                        <Form.Control 
+                            placeholder="Name" 
+                            required 
+                            value={teacherForm.name}
+                            onChange={e => setTeacherForm({...teacherForm, name: e.target.value})} 
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-2">
+                        <Form.Control 
+                            type="email" 
+                            placeholder="Email" 
+                            required 
+                            value={teacherForm.email}
+                            onChange={e => setTeacherForm({...teacherForm, email: e.target.value})} 
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-2">
+                        <Form.Control 
+                            type="password" 
+                            placeholder={editingTeacherId ? "Password (leave blank to keep current)" : "Password"}
+                            required={!editingTeacherId} 
+                            value={teacherForm.password}
+                            onChange={e => setTeacherForm({...teacherForm, password: e.target.value})} 
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-2">
+                        <Form.Control 
+                            placeholder="Department" 
+                            required 
+                            value={teacherForm.department}
+                            onChange={e => setTeacherForm({...teacherForm, department: e.target.value})} 
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-2">
+                        <Form.Control 
+                            placeholder="Subject" 
+                            required 
+                            value={teacherForm.subject}
+                            onChange={e => setTeacherForm({...teacherForm, subject: e.target.value})} 
+                        />
+                    </Form.Group>
+                    <Button type="submit" variant={editingTeacherId ? "warning" : "primary"}>
+                        {editingTeacherId ? "Update Teacher" : "Add Teacher"}
                     </Button>
-                )}
-            </Form>
+                    {editingTeacherId && (
+                        <Button variant="secondary" className="ms-2" onClick={handleCancelEdit} type="button">
+                            Cancel
+                        </Button>
+                    )}
+                </Form>
+            </div>
           </Col>
         </Row>
 
-        <Row className="mt-5">
+        <Row className="mt-5 mb-5">
             <Col>
-                <h4>Manage Teachers</h4>
-                <Table striped bordered hover responsive>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Department</th>
-                            <th>Subject</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {teachers.map(teacher => (
-                            <tr key={teacher._id}>
-                                <td>{teacher.name}</td>
-                                <td>{teacher.user_id?.email || "N/A"}</td>
-                                <td>{teacher.department}</td>
-                                <td>{teacher.subject}</td>
-                                <td>
-                                    <Button size="sm" variant="info" className="me-2" onClick={() => handleEditTeacher(teacher)}>Edit</Button>
-                                    <Button size="sm" variant="danger" onClick={() => handleDeleteTeacher(teacher._id)}>Delete</Button>
-                                </td>
+                <div className="glass-panel">
+                    <h4 className="mb-3 text-white">Manage Teachers</h4>
+                    <Table striped bordered hover responsive>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Subject</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                         {teachers.length === 0 && <tr><td colSpan="5" className="text-center">No teachers found</td></tr>}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {teachers.map(teacher => (
+                                <tr key={teacher._id}>
+                                    <td>{teacher.name}</td>
+                                    <td>{teacher.user_id?.email || "N/A"}</td>
+                                    <td>{teacher.department}</td>
+                                    <td>{teacher.subject}</td>
+                                    <td>
+                                        <Button size="sm" variant="info" className="me-2" onClick={() => handleEditTeacher(teacher)}>Edit</Button>
+                                        <Button size="sm" variant="danger" onClick={() => handleDeleteTeacher(teacher._id)}>Delete</Button>
+                                    </td>
+                                </tr>
+                            ))}
+                            {teachers.length === 0 && <tr><td colSpan="5" className="text-center">No teachers found</td></tr>}
+                        </tbody>
+                    </Table>
+                </div>
             </Col>
         </Row>
       </Container>

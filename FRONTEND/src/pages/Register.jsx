@@ -31,7 +31,7 @@ export default function Register() {
 
   return (
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-      <Card style={{ width: "400px" }}>
+      <Card className="glass-card" style={{ width: "400px" }}>
         <Card.Body>
           <h2 className="text-center mb-4">Register</h2>
           {error && <Alert variant="danger">{error}</Alert>}

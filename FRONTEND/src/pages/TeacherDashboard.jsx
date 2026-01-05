@@ -53,7 +53,7 @@ export default function TeacherDashboard() {
     <>
       <Navigation />
       <Container>
-        <Card className="mt-4 mb-4 bg-light shadow-sm">
+        <Card className="mt-4 mb-4 glass-panel shadow-sm">
             <Card.Body>
                 <h2>Welcome, {user?.name || "Teacher"}!</h2>
                 <div className="text-muted">

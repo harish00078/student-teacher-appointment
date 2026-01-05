@@ -12,7 +12,7 @@ export default function Navigation() {
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
+    <Navbar variant="dark" expand="lg" className="mb-4 glass-navbar">
       <Container>
         <Navbar.Brand href="#">Appointment System</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
