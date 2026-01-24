@@ -3,6 +3,8 @@
 ## 📖 Overview
 This is a full-stack web application designed to facilitate appointment bookings between students and teachers. Built using the **MERN** stack (MongoDB, Express.js, React, Node.js), it features role-based access control, real-time notifications, and a modern UI powered by Vite and Bootstrap.
 
+**Repository:** [https://github.com/harish00078/student-teacher-appointment](https://github.com/harish00078/student-teacher-appointment)
+
 ## 🏗 Architecture
 The application is divided into two main parts:
 - **BACKEND/**: A Node.js/Express REST API that handles data persistence, authentication, and business logic.
