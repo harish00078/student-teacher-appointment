@@ -15,7 +15,12 @@ A full-stack MERN application for scheduling and managing appointments between s
 cd BACKEND
 npm install
 ```
-- Create a `.env` file in `BACKEND/` with `MONGO_URI`, `JWT_SECRET`, and `PORT`.
+Create a `.env` file in `BACKEND/` with the following variables:
+```env
+PORT=5001
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+```
 - Seed the database to create the admin user:
   ```bash
   node seed.js
